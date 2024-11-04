@@ -1,0 +1,71 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+enum bayar {
+  CASH
+  QRIS
+}
+
+enum statusBayar {
+  BELUM
+  SELESAI
+  UTANG
+}
+
+model produk {
+  id                        Int         @id @default(autoincrement())
+  uuid                      String      @unique @default("")
+  namaProduk                String      @default("")
+  harga                     Int         @default(0)
+  createdAt                 DateTime    @default(now())
+  updatedAt                 DateTime    @updatedAt
+  transaksiList             transaksi_list[]
+}
+
+model admin {
+  id                        Int         @id @default(autoincrement())
+  uuid                      String      @default("")
+  nama                      String      @unique @default("")
+  password                  String      @default("")
+  createdAt                 DateTime    @default(now())
+  updatedAt                 DateTime    @updatedAt
+  transaksi                 transaksi[]
+}
+
+model transaksi {
+  idTransaksi               Int         @id @default(autoincrement())
+  uuid                      String      @default("")
+  pembeli                   String      @default("")
+  metodeBayar               bayar       @default(CASH)
+  admin                     admin?      @relation(fields: [adminId], references: [id])
+  adminId                   Int?
+  status                    statusBayar @default(BELUM)
+  createdAt                 DateTime    @default(now())
+  updatedAt                 DateTime    @updatedAt
+  transaksiList             transaksi_list[]
+}
+
+model transaksi_list {
+  idTransaksiList           Int         @id @default(autoincrement())
+  uuid                      String      @default("")
+  transaksi                 transaksi?  @relation(fields: [idTransaksi], references: [idTransaksi])
+  idTransaksi               Int?
+  produk                    produk?     @relation(fields: [idProduk], references: [id])
+  idProduk                  Int?
+  jumlah                    Int         @default(0)
+  catatan                   String      @default("") @db.Text
+  createdAt                 DateTime    @default(now())
+  updatedAt                 DateTime    @updatedAt
+}
