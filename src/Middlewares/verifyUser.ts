@@ -4,13 +4,15 @@ import Joi from "joi";
 export const addDataSchema = Joi.object({
   nama: Joi.string().required(),
   password: Joi.string().required(),
-  admin: Joi.optional(),
+  role: Joi.string().valid(`ADMIN`, `KASIR`).required(),
+  user: Joi.required()
 });
 
 export const updateDataSchema = Joi.object({
   nama: Joi.string().optional(),
   password: Joi.string().optional(),
-  admin: Joi.optional(),
+  role: Joi.string().valid(`ADMIN`, `KASIR`).optional(),
+  user: Joi.required()
 });
 
 export const authSchema = Joi.object({
@@ -34,7 +36,7 @@ export const verifyAuthentication = (
   return next();
 };
 
-export const verifyNewAdmin = (
+export const verifyNewUser = (
   request: Request,
   response: Response,
   next: NextFunction
@@ -52,7 +54,7 @@ export const verifyNewAdmin = (
   return next();
 };
 
-export const verifyEditAdmin = (
+export const verifyEditUser = (
   request: Request,
   response: Response,
   next: NextFunction
