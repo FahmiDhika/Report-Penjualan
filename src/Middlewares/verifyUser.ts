@@ -5,14 +5,14 @@ export const addDataSchema = Joi.object({
   nama: Joi.string().required(),
   password: Joi.string().required(),
   role: Joi.string().valid(`ADMIN`, `KASIR`).required(),
-  user: Joi.required()
+  profile_picture: Joi.string().optional(),
 });
 
 export const updateDataSchema = Joi.object({
   nama: Joi.string().optional(),
   password: Joi.string().optional(),
   role: Joi.string().valid(`ADMIN`, `KASIR`).optional(),
-  user: Joi.required()
+  profile_picture: Joi.string().optional(),
 });
 
 export const authSchema = Joi.object({

@@ -28,11 +28,14 @@ export const getAllProduk = async (request: Request, response: Response) => {
 
 export const newProduk = async (request: Request, response: Response) => {
     try {
-        const { namaProduk, harga} = request.body
+        const { namaProduk, harga, stok} = request.body
         const uuid = uuidv4()
 
+        let filename = ""
+        if (request.file) filename = request.file.filename
+
         const newProduk = await prisma.produk.create({
-            data: { uuid, namaProduk, harga: Number(harga) }
+            data: { uuid, namaProduk, harga: Number(harga), stok }
         })
 
         return response.json({
@@ -51,7 +54,7 @@ export const newProduk = async (request: Request, response: Response) => {
 export const updateProduk = async (request: Request, response: Response) => {
     try {
         const { id } = request.params
-        const { namaProduk, harga } = request.body
+        const { namaProduk, harga, stok } = request.body
 
         const findProduk = await prisma.produk.findFirst({where: { id: Number(id)}})
         if (!findProduk) return response.status(200).json({
@@ -62,7 +65,8 @@ export const updateProduk = async (request: Request, response: Response) => {
         const updateProduk = await prisma.produk.update({
             data: {
                 namaProduk: namaProduk || findProduk.namaProduk,
-                harga: harga ? Number(harga) : findProduk.harga
+                harga: harga ? Number(harga) : findProduk.harga,
+                stok: stok || findProduk.stok
             },
             where: { id: Number(id) }
         })

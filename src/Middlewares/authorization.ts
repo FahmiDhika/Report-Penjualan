@@ -37,7 +37,7 @@ export const verifyRole = (allowedRoles: string[]) => {
   return (req: Request, res: Response, next: NextFunction) => {
     const user = req.body.user;
     
-    console.log(user.role)
+    // console.log(user.role)
 
     if (!user) {
       return res
@@ -46,7 +46,7 @@ export const verifyRole = (allowedRoles: string[]) => {
     }
 
     // Debugging - Periksa isi user
-    console.log("User yang terautentikasi:", user);
+    // console.log("User yang terautentikasi:", user);
 
     if (!allowedRoles.includes(user.role)) {
       return res.status(403).json({

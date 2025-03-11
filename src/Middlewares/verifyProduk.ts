@@ -4,12 +4,15 @@ import Joi from "joi";
 export const addDataSchema = Joi.object({
     namaProduk: Joi.string().required(),
     harga: Joi.number().min(0).required(),
+    stok: Joi.number().min(0).required(),
     user: Joi.required()
 })
 
 export const updateDataSchema = Joi.object({
     namaProduk: Joi.string().optional(),
-    harga: Joi.number().min(0).optional()
+    harga: Joi.number().min(0).optional(),
+    stok: Joi.number().min(0).optional(),
+    user: Joi.required()
 })
 
 export const verifyNewProduk = (request: Request, response: Response, next: NextFunction) => {

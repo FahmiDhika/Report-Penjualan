@@ -34,6 +34,7 @@ model produk {
   uuid                      String      @unique @default("")
   namaProduk                String      @default("")
   harga                     Int         @default(0)
+  stok                      Int         @default(0)
   createdAt                 DateTime    @default(now())
   updatedAt                 DateTime    @updatedAt
   transaksiList             transaksi_list[]
@@ -44,6 +45,7 @@ model user {
   uuid                      String      @default("")
   nama                      String      @unique @default("")
   password                  String      @default("")
+  profile_picture           String      @default("")
   role                      role        @default(KASIR)
   createdAt                 DateTime    @default(now())
   updatedAt                 DateTime    @updatedAt
@@ -58,6 +60,7 @@ model transaksi {
   user                      user?      @relation(fields: [userId], references: [id])
   userId                    Int?
   status                    statusBayar @default(BELUM)
+  catatan                   String      @default("") @db.Text
   createdAt                 DateTime    @default(now())
   updatedAt                 DateTime    @updatedAt
   transaksiList             transaksi_list[]
@@ -71,7 +74,6 @@ model transaksi_list {
   produk                    produk?     @relation(fields: [idProduk], references: [id])
   idProduk                  Int?
   jumlah                    Int         @default(0)
-  catatan                   String      @default("") @db.Text
   createdAt                 DateTime    @default(now())
   updatedAt                 DateTime    @updatedAt
 }
