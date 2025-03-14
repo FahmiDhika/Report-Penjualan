@@ -6,9 +6,9 @@ const prisma = new PrismaClient({errorFormat: "pretty"})
 
 export const getAllProduk = async (request: Request, response: Response) => {
     try {
-        const { search } = request.query
+        const { produk } = request.query
         const allMenus = await prisma.produk.findMany({
-            where: { namaProduk: {contains: search?.toString() || "" } }
+            where: { namaProduk: {contains: produk?.toString() || "" } }
         })
         /** contains berarti mencari nama menunya dari menu berdasarkan keyword yang dikirimkan */
         // output
